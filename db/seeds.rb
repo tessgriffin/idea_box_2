@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+character_array = ["Cerci", "John Snow", "Tyrion", "Ned", "Arya"]
+
+character_array.each do |character|
+  Idea.create!(title: "#{character}", body: "Super cool body")
+  puts "Idea #{character} created"
+end
