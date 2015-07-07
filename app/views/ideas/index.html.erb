@@ -2,20 +2,17 @@
   <h2 class="center-align">Welcome to Idea Box</h2>
   <div class="row">
     <div class="col l6">
-      <% @ideas.each do |idea| %>
-        <h4><%= idea.title %></h4>
-        <p><%= idea.body %></p>
-      <% end %>
+    <h3>Latest Ideas</h3>
+      <div id="ideas-div">
+      </div>
     </div>
     <div class="col l6">
       <h4>New Idea</h4>
-      <%= form_for @idea do |f| %>
-        <%= f.label :title %>
-        <%= f.text_field :title %>
-        <%= f.label :body %>
-        <%= f.text_field :body %>
-        <%= f.submit "Save" %>
-      <% end %>
+        <%= label_tag :title %>
+        <%= text_field_tag :title, "", class: "idea-title" %>
+        <%= label_tag :body %>
+        <%= text_field_tag :body, "", class: "idea-body" %>
+        <button class="btn" id="create-idea">Save</button>
     </div>
   </div>
 </div>
