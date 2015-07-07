@@ -35,6 +35,27 @@ function deleteIdea(idea) {
     success: function(deletedIdea) {
       $('#idea_' + idea_id).hide()
       $('.delete-' + idea_id).hide()
+      $('.vote-' + idea_id).hide()
+    }
+  })
+}
+
+function upvoteIdea(idea){
+  $.ajax({
+    type: 'post',
+    url: '/ideas/'+ idea.id +'/upvote/',
+    success: function(upvotedIdea) {
+      $('.quality-' + upvotedIdea.id).text(upvotedIdea.quality)
+    }
+  })
+}
+
+function downvoteIdea(idea){
+  $.ajax({
+    type: 'post',
+    url: '/ideas/'+ idea.id +'/downvote/',
+    success: function(downvotedIdea) {
+      $('.quality-' + downvotedIdea.id).text(downvotedIdea.quality)
     }
   })
 }
@@ -47,12 +68,28 @@ function addIdeaToPage(idea) {
     + idea.title
     + "</h4> <p>"
     + idea.body
+    + "</p><p class='quality-"+ idea.id +"'>"
+    + idea.quality
     + "</p></div>")
   $('<button>Delete</button>')
-    .addClass('btn delete-' + idea.id)
+    .addClass('btn purple lighten-1 delete-' + idea.id)
     .attr('data-id', idea.id)
     .on('click', function(){
       deleteIdea(idea)
+    })
+    .appendTo($('#ideas-div'));
+  $('<button>+</button>')
+    .addClass('btn purple lighten-1 vote-'+ idea.id)
+    .attr('data-id', idea.id)
+    .on('click', function(){
+      upvoteIdea(idea)
+    })
+    .appendTo($('#ideas-div'));
+  $('<button>-</button>')
+    .addClass('btn purple lighten-1 vote-'+ idea.id)
+    .attr('data-id', idea.id)
+    .on('click', function(){
+      downvoteIdea(idea)
     })
     .appendTo($('#ideas-div'));
 }
@@ -65,12 +102,28 @@ function addIdeaToTop(idea) {
     + idea.title
     + "</h4> <p>"
     + idea.body
+    + "</p><p class='quality-"+ idea.id +"'>"
+    + idea.quality
     + "</p></div>")
   $('<button>Delete</button>')
-    .addClass('btn delete-' + idea.id)
+    .addClass('btn purple lighten-1 delete-' + idea.id)
     .attr('data-id', idea.id)
     .on('click', function(){
       deleteIdea(idea)
+    })
+    .insertBefore($('#ideas-div'));
+    $('<button>+</button>')
+    .addClass('btn purple lighten-1 vote-'+ idea.id)
+    .attr('data-id', idea.id)
+    .on('click', function(){
+      upvoteIdea(idea)
+    })
+    .insertBefore($('#ideas-div'));
+    $('<button>-</button>')
+    .addClass('btn purple lighten-1 vote-'+ idea.id)
+    .attr('data-id', idea.id)
+    .on('click', function(){
+      downvoteIdea(idea)
     })
     .insertBefore($('#ideas-div'));
 }
