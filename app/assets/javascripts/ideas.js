@@ -70,7 +70,8 @@ function addIdeaToPage(idea) {
     + idea.body
     + "</p><p class='quality-"+ idea.id +"'>"
     + idea.quality
-    + "</p></div>")
+    + "</p><a class='btn' href='/ideas/" + idea.id +"/edit'>Edit</a>"
+    +"</div>")
   $('<button>Delete</button>')
     .addClass('btn purple lighten-1 delete-' + idea.id)
     .attr('data-id', idea.id)
@@ -104,7 +105,8 @@ function addIdeaToTop(idea) {
     + idea.body
     + "</p><p class='quality-"+ idea.id +"'>"
     + idea.quality
-    + "</p></div>")
+    + "</p><a class='btn' href='/ideas/" + idea.id +"/edit'>Edit</a>"
+    +"</div>")
   $('<button>Delete</button>')
     .addClass('btn purple lighten-1 delete-' + idea.id)
     .attr('data-id', idea.id)
