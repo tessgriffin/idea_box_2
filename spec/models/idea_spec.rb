@@ -8,7 +8,11 @@ RSpec.describe Idea, type: :model do
   end
 
   it "has a default quality of 0" do 
-    expect(idea.quality).to equal(0)
+    expect(idea[:quality]).to eq(0)
+  end
+
+  it "has a default quality of swill" do 
+    expect(idea.quality).to eq('swill')
   end
 
   it "has a title of at least 2 characters" do 

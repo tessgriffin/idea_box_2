@@ -1,10 +1,16 @@
 <div class="container">
   <h2 class="center-align">Welcome to Idea Box</h2>
   <div class="row">
+    <div class="col l6 offset-l3">
+      <%= label_tag :search %>
+      <%= text_field_tag :search, "", class: "search-box" %>
+    </div>
+  </div>
+  <div class="row">
     <div class="col l6">
     <h3>Latest Ideas</h3>
-      <div id="ideas-div">
-      </div>
+      <div id="new-idea"></div>
+      <div id="ideas-div"></div>
     </div>
     <div class="col l6">
       <h4>New Idea</h4>

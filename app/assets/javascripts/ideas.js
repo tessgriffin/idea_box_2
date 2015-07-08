@@ -1,13 +1,19 @@
 $(document).ready(function() {
+  var ideasDiv = $('#ideas-div')
   $.ajax({
     type: 'GET',
     url: 'v1/ideas',
     success: function(ideas) {
       $.each(ideas, function(index, idea){
-        addIdeaToPage(idea);
+        addIdeaToPage(idea, ideasDiv);
       })
     }
   })
+
+  // $('.search-box').keyup(function(){
+  //   console.log($(this).val())
+  //   console.log($('#ideas-div').children().text())
+  // });
 
   $("#create-idea").on("click", function(){
       var ideaParams = { idea: {title: $(".idea-title").val(), body: $(".idea-body").val()} }
@@ -17,7 +23,7 @@ $(document).ready(function() {
         url: '/ideas',
         data: ideaParams,
         success: function(newIdea) {
-          addIdeaToTop(newIdea)
+          addIdeaToPage(newIdea, $('#new-idea'))
           $(".idea-title").val("")
           $(".idea-body").val("")
       }
@@ -34,7 +40,6 @@ function deleteIdea(idea) {
     url: '/ideas/' + idea_id,
     success: function(deletedIdea) {
       $('#idea_' + idea_id).hide()
-      $('.delete-' + idea_id).hide()
       $('.vote-' + idea_id).hide()
     }
   })
@@ -60,8 +65,8 @@ function downvoteIdea(idea){
   })
 }
 
-function addIdeaToPage(idea) {
-  $("#ideas-div").append(
+function addIdeaToPage(idea, target) {
+  $(target).append(
     "<div id='idea_"
     + idea.id
     + "'><h4>"
@@ -71,61 +76,17 @@ function addIdeaToPage(idea) {
     + "</p><p class='quality-"+ idea.id +"'>"
     + idea.quality
     + "</p><a class='btn' href='/ideas/" + idea.id +"/edit'>Edit</a>"
-    +"</div>")
-  $('<button>Delete</button>')
-    .addClass('btn purple lighten-1 delete-' + idea.id)
-    .attr('data-id', idea.id)
-    .on('click', function(){
+    + "<button class='btn purple lighten-1 delete-" + idea.id + "' data-id='" + idea.id
+    +"'>Delete</button><br>"
+    +"<button class='btn purple lighten-1 upvote-"+ idea.id +"' data-id='" + idea.id + "'>+</button>"
+    +"<button class='btn purple lighten-1 downvote-"+ idea.id +"' data-id='" + idea.id + "'>-</button>"
+    +"</div>").find($('.delete-' + idea.id)).on('click', function(){
       deleteIdea(idea)
     })
-    .appendTo($('#ideas-div'));
-  $('<button>+</button>')
-    .addClass('btn purple lighten-1 vote-'+ idea.id)
-    .attr('data-id', idea.id)
-    .on('click', function(){
-      upvoteIdea(idea)
-    })
-    .appendTo($('#ideas-div'));
-  $('<button>-</button>')
-    .addClass('btn purple lighten-1 vote-'+ idea.id)
-    .attr('data-id', idea.id)
-    .on('click', function(){
-      downvoteIdea(idea)
-    })
-    .appendTo($('#ideas-div'));
-}
-
-function addIdeaToTop(idea) {
-  $("#ideas-div").before(
-    "<div id='idea_"
-    + idea.id
-    + "'><h4>"
-    + idea.title
-    + "</h4> <p>"
-    + idea.body
-    + "</p><p class='quality-"+ idea.id +"'>"
-    + idea.quality
-    + "</p><a class='btn' href='/ideas/" + idea.id +"/edit'>Edit</a>"
-    +"</div>")
-  $('<button>Delete</button>')
-    .addClass('btn purple lighten-1 delete-' + idea.id)
-    .attr('data-id', idea.id)
-    .on('click', function(){
-      deleteIdea(idea)
-    })
-    .insertBefore($('#ideas-div'));
-    $('<button>+</button>')
-    .addClass('btn purple lighten-1 vote-'+ idea.id)
-    .attr('data-id', idea.id)
-    .on('click', function(){
-      upvoteIdea(idea)
-    })
-    .insertBefore($('#ideas-div'));
-    $('<button>-</button>')
-    .addClass('btn purple lighten-1 vote-'+ idea.id)
-    .attr('data-id', idea.id)
-    .on('click', function(){
-      downvoteIdea(idea)
-    })
-    .insertBefore($('#ideas-div'));
+  $('.upvote-' + idea.id).on('click', function(){
+    upvoteIdea(idea)
+  })
+  $('.downvote-' + idea.id).on('click', function(){
+    downvoteIdea(idea)
+  })
 }
